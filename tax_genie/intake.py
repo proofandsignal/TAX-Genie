@@ -13,6 +13,7 @@ from pathlib import Path
 
 from cryptography.hazmat.primitives.ciphers.aead import AESGCM
 from pypdf import PdfReader
+from .invoice_evidence import extract_invoice_evidence
 
 MAX_BYTES = 5 * 1024 * 1024
 MAX_PDF_PAGES = 20
@@ -87,7 +88,8 @@ class IntakeStore:
             raise ValueError("Unreadable or unsafe PDF") from exc
         # Do not echo invoice text or taxpayer identifiers into API responses or logs.
         extraction={"method":"pypdf_text","pages":len(pdf.pages),"text_present":bool(text.strip()),
-                    "requires_human_review":True}
+                    "requires_human_review":True,
+                    "evidence":extract_invoice_evidence(text)}
         doc_id=str(uuid.uuid4())
         nonce=os.urandom(12)
         encrypted=self.cipher.encrypt(nonce,content,(tenant+":"+case_id+":"+doc_id).encode())
