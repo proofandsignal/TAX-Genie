@@ -13,7 +13,7 @@ from pathlib import Path
 
 from cryptography.hazmat.primitives.ciphers.aead import AESGCM
 from pypdf import PdfReader
-from .invoice_evidence import extract_invoice_evidence
+from .document_adapter import DocumentIntelligence
 
 MAX_BYTES = 5 * 1024 * 1024
 MAX_PDF_PAGES = 20
@@ -89,7 +89,7 @@ class IntakeStore:
         # Do not echo invoice text or taxpayer identifiers into API responses or logs.
         extraction={"method":"pypdf_text","pages":len(pdf.pages),"text_present":bool(text.strip()),
                     "requires_human_review":True,
-                    "evidence":extract_invoice_evidence(text)}
+                    "evidence":DocumentIntelligence().assess(text, content, len(pdf.pages))}
         doc_id=str(uuid.uuid4())
         nonce=os.urandom(12)
         encrypted=self.cipher.encrypt(nonce,content,(tenant+":"+case_id+":"+doc_id).encode())
