@@ -1,56 +1,78 @@
-"""Bounded local PDF parsing via isolated spawned worker (prototype only).
+"""Bounded PDF parsing in a spawned subprocess — prototype, NOT an OS sandbox.
 
-A subprocess reduces direct in-process exposure, but does NOT provide an OS
-sandbox, antivirus, seccomp, filesystem/network confinement or production safety.
+The parent reads the bounded result before joining the worker to avoid a
+multiprocessing.Queue feeder deadlock with large extracted-text responses.
+This does not enforce memory, CPU, network or filesystem isolation.
 """
 from __future__ import annotations
 import multiprocessing as mp
 import io
 from pypdf import PdfReader
 
+MAX_TEXT_CHARS = 250_000
+MAX_PAGES = 20
+MAX_INPUT_BYTES = 5 * 1024 * 1024
+
+
 def _parse_worker(data: bytes, output):
     try:
-        pdf=PdfReader(io.BytesIO(data),strict=True)
-        if pdf.is_encrypted or len(pdf.pages)==0 or len(pdf.pages)>20:
-            output.put(("error","UNSUPPORTED_PDF"))
+        pdf = PdfReader(io.BytesIO(data), strict=True)
+        if pdf.is_encrypted or len(pdf.pages) == 0 or len(pdf.pages) > MAX_PAGES:
+            output.send(("error", "UNSUPPORTED_PDF"))
             return
-        lines=[]
+        lines = []
+        total_chars = 0
         for page in pdf.pages:
-            lines.append(page.extract_text() or "")
-            if sum(map(len,lines))>250_000:
-                output.put(("error","TEXT_TOO_LARGE"))
+            text = page.extract_text() or ""
+            total_chars += len(text)
+            if total_chars > MAX_TEXT_CHARS:
+                output.send(("error", "TEXT_TOO_LARGE"))
                 return
-        output.put(("ok",{"text":"\n".join(lines),"pages":len(pdf.pages)}))
+            lines.append(text)
+        output.send(("ok", {"text": "\n".join(lines), "pages": len(pdf.pages)}))
     except Exception:
-        output.put(("error","UNREADABLE_PDF"))
+        try:
+            output.send(("error", "UNREADABLE_PDF"))
+        except (OSError, BrokenPipeError):
+            pass
+    finally:
+        output.close()
 
-def parse_pdf_bounded(data: bytes, *, timeout: float=3.0) -> dict:
-    if not isinstance(data,bytes) or len(data)==0 or len(data)>5*1024*1024 or not data.startswith(b"%PDF-"):
+
+def parse_pdf_bounded(data: bytes, *, timeout: float = 3.0) -> dict:
+    if not isinstance(data, bytes) or not data or len(data) > MAX_INPUT_BYTES or not data.startswith(b"%PDF-"):
         raise ValueError("PDF rejected")
-    if not (0.1 <= timeout <= 30):
+    if not isinstance(timeout, (int, float)) or not (0.1 <= timeout <= 30):
         raise ValueError("Invalid timeout")
-    ctx=mp.get_context("spawn")
-    queue=ctx.Queue(maxsize=1)
-    proc=ctx.Process(target=_parse_worker,args=(data,queue))
-    proc.start()
+    ctx = mp.get_context("spawn")
+    parent, child = ctx.Pipe(duplex=False)
+    proc = ctx.Process(target=_parse_worker, args=(data, child))
     try:
-        proc.join(timeout)
+        proc.start()
+        child.close()
+        if not parent.poll(timeout):
+            raise ValueError("PDF_PARSE_TIMEOUT")
+        try:
+            state, payload = parent.recv()
+        except (EOFError, OSError, ValueError) as exc:
+            raise ValueError("PDF_PARSE_NO_RESULT") from exc
+        proc.join(1)
         if proc.is_alive():
-            proc.terminate()
-            proc.join(1)
-            if proc.is_alive():
-                proc.kill()
-                proc.join()
             raise ValueError("PDF_PARSE_TIMEOUT")
         if proc.exitcode != 0:
             raise ValueError("PDF_PARSE_FAILED")
-        try:
-            state,payload=queue.get(timeout=0.25)
-        except Exception as exc:
-            raise ValueError("PDF_PARSE_NO_RESULT") from exc
-        if state!="ok":
+        if state != "ok":
             raise ValueError(payload)
         return payload
     finally:
-        queue.close()
-        queue.join_thread()
+        parent.close()
+        child.close()
+        if proc.pid is not None:
+            if proc.is_alive():
+                proc.terminate()
+                proc.join(1)
+            if proc.is_alive():
+                proc.kill()
+                proc.join()
+            else:
+                proc.join()

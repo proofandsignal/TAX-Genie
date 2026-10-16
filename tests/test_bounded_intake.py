@@ -24,7 +24,7 @@ class TestBoundedIntake(unittest.TestCase):
         case=self.client.post("/v1/cases",headers=self.headers).json()["id"]
         with patch("tax_genie.intake.parse_pdf_bounded",side_effect=ValueError("PDF_PARSE_TIMEOUT")):
             response=self.client.post("/v1/cases/"+case+"/documents",headers=self.headers,
-                json={"filename":"synthetic.pdf","content_base64":base64.b64encode(b"%PDF-malformed").decode()})
+                json={"filename":"synthetic.pdf","content_base64":base64.b64encode(b"%PDF-1.7\nsynthetic-but-parser-mocked").decode()})
         self.assertEqual(response.status_code,422)
         self.assertEqual(self.client.get("/v1/cases/"+case,headers=self.headers).json()["documents"],[])
 if __name__=="__main__": unittest.main()

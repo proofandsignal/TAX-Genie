@@ -8,6 +8,7 @@ from fastapi import Depends, FastAPI, Header, HTTPException, Request
 from pydantic import BaseModel, Field
 from .intake import IntakeStore, authentic_tenant, MAX_BYTES
 from .security_controls import Scanner, RateLimiter, verified_scan
+from .pdf_ingress_policy import preflight_pdf
 
 class DocumentInput(BaseModel):
     filename: str = Field(max_length=120)
@@ -55,6 +56,9 @@ def create_app(*, store: IntakeStore, tenant_tokens: dict[str,str], scanner=None
             raise HTTPException(400,detail="Invalid file encoding")
         if len(data)>MAX_BYTES:
             raise HTTPException(413,detail="File too large")
+        # Fail closed before the bounded PDF subprocess is invoked.
+        if not preflight_pdf(payload.filename,data).accepted_for_scan:
+            raise HTTPException(422,detail="PDF could not be accepted")
         if not verified_scan(scanner,data):
             raise HTTPException(503,detail="Document scanning unavailable or file rejected")
         try:
