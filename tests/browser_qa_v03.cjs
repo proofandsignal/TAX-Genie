@@ -113,6 +113,16 @@ async function run(){
   assert.match(await val('minimum'),/50/);
   const href=await evalJs("document.querySelector('a[href^=\"mailto:\"]').getAttribute('href')");
   assert.match(href,/mailto:proofandsignal@gmail\.com/);
+  // Exact calendar-year scenario rules; general EU deadlines do not prove legal eligibility.
+  await set('period','remainder');
+  assert.match(await val('minimum'),/50/,'remainder-of-year application minimum');
+  const earliest=await evalJs("document.querySelector('#year option').value");
+  await set('year',earliest);
+  assert.match(await val('status'),/deadline has passed/i,'past general deadline warning');
+  const upcoming=await evalJs("String(new Date().getFullYear()+1)");
+  await set('year',upcoming);
+  assert.doesNotMatch(await val('status'),/deadline has passed/i,'future year is not marked expired');
+  assert.match(await val('details'),/National restrictions.*NOT VERIFIED/,'no automated refund conclusion');
   await cmd('Emulation.setDeviceMetricsOverride',{width:390,height:844,deviceScaleFactor:1,mobile:true});
   await delay(120);
   const size=await evalJs('({viewport:window.innerWidth,scroll:document.documentElement.scrollWidth})');
