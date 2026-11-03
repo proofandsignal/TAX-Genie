@@ -17,3 +17,29 @@ jobs:
         run: python -m unittest discover -s tests -v
       - name: Headless Chromium Screen v0.3 browser QA
         run: node tests/browser_qa_v03.cjs
+      - name: Package Pages root assets (not a deployment)
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from zipfile import ZipFile, ZIP_DEFLATED
+          root = Path("site/taxgenie-screen-pilot")
+          paths = ["index.html", "_headers", "health.txt", "assets/style.css", "assets/app.js"]
+          for name in paths:
+              assert (root / name).is_file(), f"Missing Pages asset: {name}"
+          Path("dist").mkdir(exist_ok=True)
+          dest = Path("dist/taxgenie-pages-v03.zip")
+          with ZipFile(dest, "w", ZIP_DEFLATED) as archive:
+              for name in paths:
+                  archive.write(root / name, arcname=name)
+          with ZipFile(dest) as archive:
+              assert archive.testzip() is None
+              assert archive.namelist() == paths
+          print("RELEASE ZIP ROOT CHECK PASS:", dest)
+          PY
+      - name: Upload pilot artifact for human-approved deployment
+        uses: actions/upload-artifact@v4
+        with:
+          name: taxgenie-pages-v03-ci-verified
+          path: dist/taxgenie-pages-v03.zip
+          if-no-files-found: error
+          retention-days: 7
