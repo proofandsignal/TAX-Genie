@@ -94,6 +94,7 @@ async function run(){
   assert.equal(await evalJs("document.querySelectorAll('#est option').length"),27);
   assert.match(await val('amount'),/1,200\.00/);
   assert.match(await val('minimum'),/50/);
+  assert.match(await val('threshold'),/NOT ASSESSED.*requested refund unknown/,'Charged VAT must not be treated as claimed refund');
   assert.match(await val('status'),/eligibility not assessed/i);
   assert.equal(await evalJs("document.querySelectorAll('input[type=file], form').length"),0);
   await set('period','short');assert.match(await val('minimum'),/400/);
@@ -101,12 +102,16 @@ async function run(){
   await set('refund','FR');
   await set('vat','12.345');assert.equal(await evalJs("document.getElementById('copy').disabled"),true);
   await set('vat','-5');assert.equal(await evalJs("document.getElementById('copy').disabled"),true);
+  await set('vat','10');
+  assert.match(await val('threshold'),/NOT ASSESSED/,'Even small charged VAT cannot establish application minimum');
+  assert.doesNotMatch(await val('status'),/Below general EU application minimum/,'No illegal inference from charged VAT');
   await set('vat','500');assert.equal(await evalJs("document.getElementById('copy').disabled"),false);
   await set('expense','Fuel');assert.match(await val('expenseStatus'),/Fuel.*UNVERIFIED/);
   await set('deduction','no');assert.match(await val('status'),/human review required/i);
   const summary=await evalJs('summary()');
   assert.match(summary,/Recoverable VAT: NOT ASSESSED/);
   assert.match(summary,/Eligibility: UNDETERMINED/);
+  assert.match(summary,/Minimum comparison: NOT ASSESSED/);
   assert.doesNotMatch(summary,/Estimated recoverable VAT: €|Guaranteed|Approved claim/i);
   await evalJs("document.getElementById('reset').click()");
   assert.match(await val('amount'),/1,200\.00/);
