@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#09131f">
+<meta name="robots" content="noindex,nofollow">
+<meta name="description" content="Research-only cross-border EU VAT application screening. Hypothetical figures and cited official sources, not refund estimates.">
+<title>Tax Genie | EU VAT Recovery Research Pilot</title>
+<link rel="stylesheet" href="./assets/style.css">
+</head>
+<body>
+<main>
+<header><div class="brand"><div class="mark" aria-hidden="true">TG</div><div><strong>Tax Genie</strong><div class="muted tiny">Proof &amp; Signal · Independent research pilot</div></div></div><div class="pill">SYNTHETIC DATA ONLY<br>NO REFUND PROMISES</div></header>
+<div class="kicker">Recovery Intelligence · Screen v0.3</div>
+<h1>EU cross-border VAT.<br><span>Evidence before recovery.</span></h1>
+<p class="intro">Explore a hypothetical application route and the general EU minimum application thresholds. <strong>Amounts shown are VAT charged, not amounts requested for refund.</strong> Application minimums apply to VAT requested for refund, which this screen does not determine. No eligibility decision, national expense determination or tax filing is performed.</p>
+<div class="cols">
+<section class="panel" aria-label="Scenario form">
+<h2>01 · Research scenario</h2><div class="body">
+<div class="subheading">Select route and period</div>
+<div class="fields">
+<div class="field"><label for="est">Business established in</label><select id="est"></select></div>
+<div class="field"><label for="refund">Country where VAT was charged</label><select id="refund"></select></div>
+<div class="field"><label for="period">Application period</label><select id="period"><option value="annual">Full calendar year</option><option value="short">3–11 calendar months</option><option value="remainder">Remainder of calendar year</option></select></div>
+<div class="field"><label for="year">Application period year</label><select id="year"></select></div>
+<div class="field"><label for="vat">Hypothetical VAT charged (EUR)</label><input id="vat" inputmode="decimal" type="number" min="0" max="10000000" step=".01" value="1200" required><div class="note">Example amount only. No invoice upload.</div></div>
+<div class="field"><label for="expense">Expense category</label><select id="expense"><option>Accommodation</option><option>Fuel</option><option>Transport</option><option>Restaurants / catering</option><option>Trade fairs</option><option>Entertainment</option><option>Other business expenses</option></select><div class="note">Restrictions are country-specific and unverified.</div></div>
+</div>
+<div class="border"></div><div class="subheading">Unverified business assumptions</div>
+<div class="fields">
+<div class="field"><label for="deduction">Input VAT deduction rights?</label><select id="deduction"><option value="unknown">Unknown</option><option value="yes">Yes · hypothetical</option><option value="no">No</option></select></div>
+<div class="field"><label for="established">Established in refund country?</label><select id="established"><option value="unknown">Unknown</option><option value="no">No · hypothetical</option><option value="yes">Yes / possibly</option></select></div>
+<div class="field"><label for="supplies">Taxable supplies in refund country?</label><select id="supplies"><option value="unknown">Unknown</option><option value="no">No · hypothetical</option><option value="yes">Yes / possibly</option></select></div>
+</div>
+<p id="error" role="alert">Enter a valid fictional amount between €0 and €10,000,000, with no more than two decimal places.</p>
+<div class="actions"><button id="reset" type="button">Reset demo</button><button id="print" type="button">Print synthetic summary</button></div>
+<p class="note">No personal data, actual invoices, tax identification numbers or client amounts. Input stays inside this browser tab and is not transmitted by Tax Genie.</p>
+</div></section>
+<section class="panel" aria-live="polite">
+<h2>02 · Evidence-first result</h2><div class="screen"><div class="meta">VAT amount for screening · not recoverable VAT</div><div class="big" id="amount">€1,200.00</div><div class="note">No refund projection or approval is calculated.</div></div>
+<div class="result"><div id="status" class="status"></div>
+<div class="line"><span>Scenario route</span><strong id="route"></strong></div>
+<div class="line"><span>EU-level application minimum</span><strong id="minimum"></strong></div>
+<div class="line"><span>Claim minimum assessment</span><strong id="threshold"></strong></div>
+<div class="line"><span>General filing deadline</span><strong id="deadline"></strong></div>
+<div class="line"><span>Selected expense treatment</span><strong id="expenseStatus"></strong></div>
+<div class="line"><span>Country-specific restrictions</span><strong>NOT VERIFIED</strong></div>
+<div class="line"><span>Recoverable VAT / eligibility</span><strong>NOT ASSESSED</strong></div>
+<div class="hintbox" id="details"></div>
+<div class="hintbox"><strong>Verification Agent:</strong> design only. No automated legal monitoring or validated country rule packs are active in this public pilot. Country-specific conclusions require reviewed authoritative sources.</div>
+<div class="actions"><button class="primary" id="copy" type="button">Copy research summary</button><a class="linkbtn" href="mailto:proofandsignal@gmail.com?subject=Tax%20Genie%20Pilot%20-%20Discovery%20Call">Request a pilot discussion</a></div>
+<p role="status" id="feedback" aria-live="polite"></p>
+</div></section>
+</div>
+<section class="below"><h2>03 · Evidence checklist</h2><p>Before evaluating any real business case, verify the claimant's establishment and VAT status, the transaction and expense category, qualifying period, national exclusions, applicable invoice evidence and official submission channel. The current screen does <strong>none</strong> of these validations. It is a research navigation tool only.</p></section>
+<section class="below"><h2>Official references</h2><div class="sourcegrid">
+<a href="https://eur-lex.europa.eu/eli/dir/2008/9/oj" target="_blank" rel="noopener noreferrer">Directive 2008/9/EC · EU legal framework</a>
+<a href="https://europa.eu/youreurope/business/taxation/vat/vat-refunds/index_en.htm" target="_blank" rel="noopener noreferrer">Your Europe · VAT refunds</a>
+<a href="https://taxation-customs.ec.europa.eu/taxation/vat/vat-directive/vat-refunds_en" target="_blank" rel="noopener noreferrer">European Commission · VAT refunds</a>
+</div></section>
+<footer class="end">Tax Genie research pilot v0.3 · Proof &amp; Signal. Not legal, tax or financial advice. All inputs must be fictional. Application minimums and deadlines are EU-level references and do not resolve country restrictions, claim eligibility or recoverable amounts. No uploads, customer accounts, analytics, third-party scripts, live filing or backend processing. Search indexing remains disabled pending approval. Feedback is offered through an email link; no entered scenario values are automatically included.</footer>
+</main>
+<script defer src="./assets/app.js"></script>
+</body>
+</html>
