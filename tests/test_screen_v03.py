@@ -54,7 +54,7 @@ class ScreenStructure(unittest.TestCase):
         self.assertIn('name="robots" content="noindex,nofollow"', html)
         self.assertIn("Recoverable VAT / eligibility", html)
         self.assertIn("NOT ASSESSED", html)
-        self.assertIn("No real invoices", html)
+        self.assertIn("No personal data, actual invoices", html)
         self.assertNotIn("<form", html)
         self.assertNotIn('type="file"', html)
         self.assertNotIn("https://cloudflareinsights.com", html)
