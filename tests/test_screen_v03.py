@@ -96,7 +96,7 @@ function element(id) {
   });
   return elements.get(id);
 }
-const document = {getElementById:element,createElement(){return {value:'',textContent:''}}};
+const document = {getElementById:element,querySelectorAll(){return []},createElement(){return {value:'',textContent:''}}};
 const context = {
  document,Intl,Date,Number,String,Array,Math,console,
  navigator:{clipboard:{writeText:async()=>{}}},window:{print(){}}
