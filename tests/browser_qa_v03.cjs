@@ -100,6 +100,23 @@ async function run(){
   assert.match(await val('threshold'),/NOT ASSESSED.*requested refund unknown/,'Charged VAT must not be treated as claimed refund');
   assert.match(await val('status'),/eligibility not assessed/i);
   assert.equal(await evalJs("document.querySelectorAll('input[type=file], form').length"),0);
+  // Premium Explorer and brand regression checks.
+  assert.equal(await evalJs("document.querySelectorAll('.logo-symbol').length"),1,'branded standalone SVG logo');
+  assert.equal(await evalJs("document.querySelectorAll('.hero-art').length"),1,'themed cover illustration');
+  assert.equal(await evalJs("document.querySelectorAll('[data-preset]').length"),3,'three sample scenarios');
+  assert.equal(await evalJs("document.querySelectorAll('#about').length"),1,'about us panel');
+  assert.match(await evalJs("document.querySelector('.end-credit').textContent"),/Created by.*Proof & Signal/);
+  await evalJs("document.querySelector('[data-preset=\"fr-de\"]').click()");
+  assert.equal(await evalJs("document.getElementById('est').value"),'FR');
+  assert.equal(await evalJs("document.getElementById('refund').value"),'DE');
+  assert.match(await val('minimum'),/400/);
+  assert.match(await val('threshold'),/NOT ASSESSED/);
+  await evalJs("document.querySelector('[data-preset=\"domestic\"]').click()");
+  assert.match(await val('status'),/Domestic VAT route/);
+  await evalJs("document.querySelector('[data-preset=\"de-fr\"]').click()");
+  assert.match(await val('route'),/DE.*FR/);
+  assert.match(await val('amount'),/1,200\.00/);
+
   await set('period','short');assert.match(await val('minimum'),/400/);
   await set('refund','DE');assert.match(await val('status'),/Domestic VAT route/i);
   await set('refund','FR');
