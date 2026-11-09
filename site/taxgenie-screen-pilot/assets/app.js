@@ -28,4 +28,22 @@ function summary(){const m=model();if(!m.valid)return '';return ['TAX GENIE · S
 el('copy').addEventListener('click',async()=>{try{if(!navigator.clipboard||!navigator.clipboard.writeText)throw new Error('clipboard unavailable');await navigator.clipboard.writeText(summary());el('feedback').textContent='Synthetic summary copied. Verify content before sharing.';}catch(_){el('feedback').textContent='Copy unavailable. Use Print to save a synthetic summary.';}});
 el('reset').addEventListener('click',reset);el('print').addEventListener('click',()=>window.print());
 for(const id of ['est','refund','period','year','vat','expense','deduction','established','supplies']){el(id).addEventListener('input',update);el(id).addEventListener('change',update);}
+// Presets exist only in this browser tab; they are not tracked or sent.
+document.querySelectorAll('[data-preset]').forEach(button=>{
+  button.addEventListener('click',()=>{
+    const preset=button.getAttribute('data-preset');
+    if(preset==='de-fr'){
+      el('est').value='DE';el('refund').value='FR';el('period').value='annual';el('vat').value='1200';el('expense').value='Accommodation';
+    }else if(preset==='fr-de'){
+      el('est').value='FR';el('refund').value='DE';el('period').value='short';el('vat').value='350';el('expense').value='Trade fairs';
+    }else if(preset==='domestic'){
+      el('est').value='DE';el('refund').value='DE';el('period').value='annual';el('vat').value='1200';el('expense').value='Accommodation';
+    }else{return;}
+    el('year').value=String(currentYear);
+    el('deduction').value='unknown';el('established').value='unknown';el('supplies').value='unknown';
+    update();
+    el('feedback').textContent='Fictional sample loaded. No refund assessment performed.';
+    el('explore').scrollIntoView({behavior:'auto',block:'start'});
+  });
+});
 reset();
