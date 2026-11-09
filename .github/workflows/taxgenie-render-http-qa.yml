@@ -1,0 +1,26 @@
+name: Tax Genie Render HTTPS Smoke
+on:
+  pull_request:
+    paths:
+      - .github/workflows/taxgenie-render-http-qa.yml
+  workflow_dispatch:
+jobs:
+  public-http-smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Test published v0.3 from external GitHub runner
+        shell: bash
+        run: |
+          set -euo pipefail
+          URL="https://taxgenie-premium-v03-qa.onrender.com"
+          curl --fail --show-error --silent --location --retry 3 --retry-delay 2 --retry-all-errors --max-time 25 "$URL/" -o /tmp/taxgenie-index.html
+          grep -q 'Tax Genie' /tmp/taxgenie-index.html
+          grep -q 'id="explore"' /tmp/taxgenie-index.html
+          curl --fail --show-error --silent --location --retry 3 --retry-delay 2 --retry-all-errors --max-time 25 "$URL/health.txt" -o /tmp/taxgenie-health.txt
+          grep -q 'TAX GENIE PILOT v0.3' /tmp/taxgenie-health.txt
+          curl --fail --show-error --silent --location --retry 3 --retry-delay 2 --retry-all-errors --max-time 25 "$URL/assets/app.js" -o /tmp/taxgenie-app.js
+          grep -q 'const countries=' /tmp/taxgenie-app.js
+          curl --fail --show-error --silent --location --retry 3 --retry-delay 2 --retry-all-errors --max-time 25 "$URL/assets/style.css" -o /tmp/taxgenie-style.css
+          grep -q '.hero-art' /tmp/taxgenie-style.css
+          echo "PUBLIC HTTPS QA PASS: root HTML, health.txt, JavaScript and CSS"
