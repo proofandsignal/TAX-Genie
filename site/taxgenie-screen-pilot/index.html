@@ -10,12 +10,44 @@
 <link rel="stylesheet" href="./assets/style.css">
 </head>
 <body>
-<main>
-<header><div class="brand"><div class="mark" aria-hidden="true">TG</div><div><strong>Tax Genie</strong><div class="muted tiny">Proof &amp; Signal · Independent research pilot</div></div></div><div class="pill">SYNTHETIC DATA ONLY<br>NO REFUND PROMISES</div></header>
-<div class="kicker">Recovery Intelligence · Screen v0.3</div>
-<h1>EU cross-border VAT.<br><span>Evidence before recovery.</span></h1>
-<p class="intro">Explore a hypothetical application route and the general EU minimum application thresholds. <strong>Amounts shown are VAT charged, not amounts requested for refund.</strong> Application minimums apply to VAT requested for refund, which this screen does not determine. No eligibility decision, national expense determination or tax filing is performed.</p>
-<div class="cols">
+<main id="top">
+<header class="site-header">
+<a class="brand" href="#top" aria-label="Tax Genie home">
+<svg class="logo-symbol" viewBox="0 0 64 64" fill="none" role="img" aria-label="Tax Genie logo" xmlns="http://www.w3.org/2000/svg">
+<rect x="1" y="1" width="62" height="62" rx="17" fill="#142F3A" stroke="#8EEBD9" stroke-width="2"/>
+<path d="M15 22H38M26.5 22V44" stroke="#BDF8EA" stroke-width="5.5" stroke-linecap="round"/>
+<path d="M36 37L43 44L53 29" stroke="#6CE0BE" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="48" cy="17" r="3" fill="#E6C78D"/>
+</svg>
+<span><strong>Tax Genie</strong><span class="muted tiny brand-sub">by Proof &amp; Signal</span></span>
+</a>
+<nav class="nav-links" aria-label="Primary navigation"><a href="#explore">Explore</a><a href="#evidence">Evidence</a><a href="#workflow">How it works</a><a href="#about">About</a></nav>
+<span class="pill">RESEARCH PILOT<br>FICTIONAL DATA ONLY</span>
+</header>
+<section class="hero" aria-labelledby="hero-title">
+<div class="hero-copy">
+<div class="kicker">VAT Recovery Intelligence · Screen v0.3</div>
+<h1 id="hero-title">Explore cross-border VAT.<br><span>See the evidence gaps.</span></h1>
+<p class="intro">A premium research sandbox for European business teams. Explore a hypothetical VAT route, discover the EU application framework, and identify what still needs professional verification. <strong>VAT charged is not the refund amount.</strong></p>
+<div class="hero-actions"><a class="linkbtn primary" href="#explore">Explore sample cases <span aria-hidden="true">↗</span></a><a class="linkbtn" href="#evidence">View evidence checklist</a></div>
+<p class="hero-caution">Demo only · No real invoices · No eligibility decisions · No filings</p>
+</div>
+<div class="hero-art" role="img" aria-label="Decorative illustration of fictional EU VAT evidence moving between Germany and France, with legal review required">
+<div class="art-eyebrow">RESEARCH ROUTE · SYNTHETIC</div>
+<div class="art-route"><span>DE</span><div class="route-line" aria-hidden="true"><span></span></div><span>FR</span></div>
+<div class="art-document"><span class="art-document-icon" aria-hidden="true">▤</span><span>VAT evidence<br><small>Source → review → decision</small></span><span class="art-question">?</span></div>
+<div class="art-foot"><span class="art-dot"></span> HUMAN VERIFICATION REQUIRED</div>
+</div>
+</section>
+<section class="presets" aria-label="Sample scenarios">
+<div class="presets-head"><div><span class="section-number">01 / EXPLORE</span><h2>Start with a sample case.</h2></div><p>One tap loads fictional details. No data is sent.</p></div>
+<div class="preset-grid">
+<button type="button" class="preset-card" data-preset="de-fr"><span class="preset-overline">ANNUAL · EU CROSS-BORDER</span><strong>Germany <span aria-hidden="true">→</span> France</strong><span>Explore VAT charged on accommodation</span><span class="preset-action">Explore scenario ↗</span></button>
+<button type="button" class="preset-card" data-preset="fr-de"><span class="preset-overline">SHORT PERIOD · EU CROSS-BORDER</span><strong>France <span aria-hidden="true">→</span> Germany</strong><span>Explore a shorter research period</span><span class="preset-action">Explore scenario ↗</span></button>
+<button type="button" class="preset-card" data-preset="domestic"><span class="preset-overline">NEGATIVE / ROUTE CHECK</span><strong>Germany <span aria-hidden="true">→</span> Germany</strong><span>See when this EU pathway does not apply</span><span class="preset-action">Explore scenario ↗</span></button>
+</div>
+</section>
+<div id="explore" class="cols">
 <section class="panel" aria-label="Scenario form">
 <h2>01 · Research scenario</h2><div class="body">
 <div class="subheading">Select route and period</div>
@@ -53,13 +85,22 @@
 <p role="status" id="feedback" aria-live="polite"></p>
 </div></section>
 </div>
-<section class="below"><h2>03 · Evidence checklist</h2><p>Before evaluating any real business case, verify the claimant's establishment and VAT status, the transaction and expense category, qualifying period, national exclusions, applicable invoice evidence and official submission channel. The current screen does <strong>none</strong> of these validations. It is a research navigation tool only.</p></section>
+<section class="below" id="evidence"><div class="section-number">02 / EVIDENCE</div><h2>What must be verified before a real claim?</h2><p>Before evaluating any real business case, verify the claimant's establishment and VAT status, the transaction and expense category, qualifying period, national exclusions, applicable invoice evidence and official submission channel. The current screen does <strong>none</strong> of these validations. It is a research navigation tool only.</p></section>
+<section class="below" id="workflow"><div class="section-number">03 / CUSTOMER JOURNEY</div><h2>Explore first. Verify before acting.</h2>
+<div class="journey-grid">
+<div class="journey-card"><span class="journey-step">01</span><h3>Explore</h3><p>Use fictional inputs to understand an EU VAT research route and general application rules.</p></div>
+<div class="journey-card"><span class="journey-step">02</span><h3>Evidence mapping</h3><p>Identify unknowns: business status, expense type, filing period and applicable national rules.</p></div>
+<div class="journey-card"><span class="journey-step">03</span><h3>Discovery</h3><p>Ask about a possible pilot. No actual invoice or taxpayer documents are accepted through this website.</p></div>
+</div>
+</section>
+<section class="below contact-block" aria-labelledby="contact-title"><div><div class="section-number">04 / B2B PILOT</div><h2 id="contact-title">Interested in an evidence-first VAT workflow?</h2><p>Tell us which cross-border process needs better visibility. We are validating the research product, not offering a guaranteed VAT refund service.</p></div><a class="linkbtn primary" href="mailto:proofandsignal@gmail.com?subject=Tax%20Genie%20Pilot%20-%20Discovery%20Call">Request a pilot conversation ↗</a></section>
 <section class="below"><h2>Official references</h2><div class="sourcegrid">
 <a href="https://eur-lex.europa.eu/eli/dir/2008/9/oj" target="_blank" rel="noopener noreferrer">Directive 2008/9/EC · EU legal framework</a>
 <a href="https://europa.eu/youreurope/business/taxation/vat/vat-refunds/index_en.htm" target="_blank" rel="noopener noreferrer">Your Europe · VAT refunds</a>
 <a href="https://taxation-customs.ec.europa.eu/taxation/vat/vat-directive/vat-refunds_en" target="_blank" rel="noopener noreferrer">European Commission · VAT refunds</a>
 </div></section>
-<footer class="end">Tax Genie research pilot v0.3 · Proof &amp; Signal. Not legal, tax or financial advice. All inputs must be fictional. Application minimums and deadlines are EU-level references and do not resolve country restrictions, claim eligibility or recoverable amounts. No uploads, customer accounts, analytics, third-party scripts, live filing or backend processing. Search indexing remains disabled pending approval. Feedback is offered through an email link; no entered scenario values are automatically included.</footer>
+<section id="about" class="about-panel" aria-labelledby="about-title"><div class="section-number">05 / ABOUT US</div><h2 id="about-title">Built for clearer decisions, not faster guesses.</h2><p>Tax Genie is an early research pilot by <strong>Proof &amp; Signal</strong>. Its purpose is to make uncertainty visible before teams commit to a VAT recovery workflow. It does not act as a tax adviser or submit refunds.</p></section>
+<footer class="end"><span class="end-credit">Created by <strong>Proof &amp; Signal</strong> · Tax Genie research pilot v0.3</span><span>Not legal, tax or financial advice. All inputs must be fictional. EU-level minimums and deadlines do not determine national restrictions, claim eligibility or recoverable VAT. No uploads, customer accounts, analytics, third-party scripts, live filing or backend processing. Search indexing remains disabled pending approval. Feedback uses an email link and never includes input values automatically.</span></footer>
 </main>
 <script defer src="./assets/app.js"></script>
 </body>
