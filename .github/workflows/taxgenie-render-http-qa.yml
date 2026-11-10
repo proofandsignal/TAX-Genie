@@ -23,7 +23,7 @@ jobs:
           grep -q 'id="vault"' /tmp/tg-index.html
           grep -q 'id="brief"' /tmp/tg-index.html
           grep -q 'id="services"' /tmp/tg-index.html
-          grep -q 'No real invoices' /tmp/tg-index.html
+          grep -q 'No personal data, actual invoices' /tmp/tg-index.html
           fetch "health.txt" /tmp/tg-health.txt
           grep -q 'TAX GENIE PILOT v0.3' /tmp/tg-health.txt
           fetch "assets/app.js" /tmp/tg-app.js
