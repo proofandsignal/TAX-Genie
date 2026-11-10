@@ -83,7 +83,7 @@ async function run(){
    return evalJs(expr);
   };
   await cmd('Page.enable');await cmd('Runtime.enable');
-  await cmd('Page.navigate',{url:pathToFileURL(index).href});
+  await cmd('Page.navigate',{url:process.env.TAXGENIE_TEST_URL||pathToFileURL(index).href});
   let ready=false;
   for(let n=0;n<70;n++){
    try{ready=await evalJs("document.readyState==='complete' && document.getElementById('est')?.value==='DE' && document.getElementById('refund')?.value==='FR'");if(ready)break;}
