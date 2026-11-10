@@ -23,6 +23,7 @@ details.push(m.period==='short'?'€400 is the requested-refund minimum for a qu
 if(m.home!=='DE'||m.host!=='FR')details.push('This route has no validated national rules; country-specific currency equivalents may apply.');
 if(m.home==='DE'&&m.host==='FR')details.push('Germany → France is an initial research focus, not a validated French rule pack.');
 el('status').textContent=label;el('status').className='status'+(warn?' warn':'');el('details').textContent=details.join(' ');
+  syncBrief();
 }
 function summary(){const m=model();if(!m.valid)return '';return ['TAX GENIE · SYNTHETIC RESEARCH SUMMARY v0.3','Scenario (fictional): '+m.home+' → '+m.host,'Period: '+m.year+' / '+m.period,'Hypothetical VAT charged: '+fmt(m.amount),'General EU minimum requested refund: '+(m.same?'not applicable':fmt(m.minimum)),'General filing deadline: '+(m.same?'not applicable':m.deadline),'Minimum comparison: NOT ASSESSED (charged VAT is not the requested refund amount)','Expense category: '+m.expense+' (country rules NOT VERIFIED)','Screen message: '+el('status').textContent,'Recoverable VAT: NOT ASSESSED','Eligibility: UNDETERMINED','No real invoices or business data entered. Not tax/legal advice.','Legal basis reference: https://eur-lex.europa.eu/eli/dir/2008/9/oj'].join('\n');}
 el('copy').addEventListener('click',async()=>{try{if(!navigator.clipboard||!navigator.clipboard.writeText)throw new Error('clipboard unavailable');await navigator.clipboard.writeText(summary());el('feedback').textContent='Synthetic summary copied. Verify content before sharing.';}catch(_){el('feedback').textContent='Copy unavailable. Use Print to save a synthetic summary.';}});
@@ -46,4 +47,82 @@ document.querySelectorAll('[data-preset]').forEach(button=>{
     el('explore').scrollIntoView({behavior:'auto',block:'start'});
   });
 });
+
+// Evidence Vault is a visual learning checklist; checked means question explored,
+// not verified or satisfied. This is not a real-dossier workflow.
+function exploredCount(){return [...document.querySelectorAll('[data-evidence]')].filter(x=>x.checked).length;}
+function updateEvidence(){
+ const n=exploredCount();
+ el('evidence-count').textContent=n+' / 6';
+ el('brief-evidence').textContent=n+' of 6 (demo only)';
+ el('progress-fill').style.width=(n/6*100)+'%';
+ el('progressbar').setAttribute('aria-valuenow',String(n));
+}
+for(const checkbox of document.querySelectorAll('[data-evidence]')){
+ checkbox.addEventListener('change',updateEvidence);
+}
+el('evidence-reset').addEventListener('click',()=>{
+ for(const checkbox of document.querySelectorAll('[data-evidence]')) checkbox.checked=false;
+ updateEvidence();
+});
+function syncBrief(){
+ const m=model();
+ el('brief-route').textContent=m.home+' → '+m.host;
+ el('brief-period').textContent=m.year+' / '+(m.period==='short'?'3–11-month category':m.period==='remainder'?'Year remainder':'Calendar year');
+ el('brief-vat').textContent=m.valid?fmt(m.amount):'INVALID / FICTIONAL INPUT';
+ el('brief-signal').textContent=el('status').textContent;
+}
+el('brief-copy').addEventListener('click',async()=>{
+ const n=exploredCount();
+ const brief=summary()+'\nDemo questions explored: '+n+' of 6 (NOT verified)\nVAT refund forecast: NONE\nIndependent legal assessment: NOT PERFORMED';
+ try{
+  if(!brief||!navigator.clipboard?.writeText)throw new Error('Clipboard unavailable');
+  await navigator.clipboard.writeText(brief);
+  el('brief-feedback').textContent='Sample dossier copied; no real client data included.';
+ }catch(_){el('brief-feedback').textContent='Copy unavailable. Use Print to save the fictional sample.';}
+});
+el('brief-print').addEventListener('click',()=>window.print());
+const serviceData={
+ mapping:{
+  stage:'DISCOVERY PILOT / RESEARCH ONLY',
+  title:'Trace the route. See the unknowns.',
+  description:'Explore whether a hypothetical EU cross-border expense belongs in a particular research pathway. Surface the next questions without asserting VAT recovery eligibility.',
+  output:'A route summary with visible decision gaps and official reference links.'
+ },
+ evidence:{
+  stage:'PROTOTYPE / NO CLIENT DOCUMENTS',
+  title:'Transform questions into an evidence map.',
+  description:'Discover the documentation, status and classification questions a team would need to resolve before seeking professional VAT advice. The live pilot accepts no real invoices.',
+  output:'A fictional evidence checklist and human-review handoff brief.'
+ },
+ rules:{
+  stage:'DESIGN ONLY / NOT AN ACTIVE MONITOR',
+  title:'Watch the rules. Keep the provenance.',
+  description:'Concept for tracking official changes, effective dates and source evidence across EU and national VAT frameworks. No live country rule watch is operating in this preview.',
+  output:'An illustrative rule-change evidence trail; implementation requires a verified source registry.'
+ },
+ handoff:{
+  stage:'FUTURE / PARTNER VALIDATION',
+  title:'Give specialists the context, not assumptions.',
+  description:'Proposed handoff from business research to an independently qualified tax professional, with clear unanswered questions and source references. No partner or filing capability is represented as active.',
+  output:'A proposed client-to-expert research brief and review queue.'
+ }
+};
+for(const button of document.querySelectorAll('[data-service]')){
+ button.addEventListener('click',()=>{
+  const key=button.getAttribute('data-service'),item=serviceData[key];
+  if(!item)return;
+  for(const b of document.querySelectorAll('[data-service]')){
+   const chosen=b===button;
+   b.className='service-choice'+(chosen?' active':'');
+   b.setAttribute('aria-pressed',chosen?'true':'false');
+  }
+  el('service-stage').textContent=item.stage;
+  el('service-title').textContent=item.title;
+  el('service-description').textContent=item.description;
+  el('service-output').textContent=item.output;
+ });
+}
+updateEvidence();
+
 reset();
