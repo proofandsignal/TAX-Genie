@@ -164,10 +164,23 @@ async function run(){
   await set('year',upcoming);
   assert.doesNotMatch(await val('status'),/deadline has passed/i,'future year is not marked expired');
   assert.match(await val('details'),/National restrictions.*NOT VERIFIED/,'no automated refund conclusion');
+  // Preserve full-page visual evidence in CI to inspect actual product design.
+  await evalJs("document.getElementById('reset').click()");
+  await cmd('Emulation.setDeviceMetricsOverride',{width:1440,height:950,deviceScaleFactor:1,mobile:false});
+  await delay(150);
+  const screenshots=path.resolve(__dirname,'../dist');
+  fs.mkdirSync(screenshots,{recursive:true});
+  const desktopPng=await cmd('Page.captureScreenshot',{format:'png',captureBeyondViewport:true});
+  fs.writeFileSync(path.join(screenshots,'taxgenie-atlas-desktop.png'),Buffer.from(desktopPng.data,'base64'));
   await cmd('Emulation.setDeviceMetricsOverride',{width:390,height:844,deviceScaleFactor:1,mobile:true});
   await delay(120);
   const size=await evalJs('({viewport:window.innerWidth,scroll:document.documentElement.scrollWidth})');
   assert(size.scroll<=size.viewport+1,'Mobile horizontal overflow '+JSON.stringify(size));
+
+  const mobilePng=await cmd('Page.captureScreenshot',{format:'png',captureBeyondViewport:true});
+  fs.writeFileSync(path.join(screenshots,'taxgenie-atlas-mobile.png'),Buffer.from(mobilePng.data,'base64'));
+  console.log('VISUAL QA ARTIFACTS: desktop + 390px mobile screenshots saved');
+
   assert.equal(errors.length,0,'Uncaught JS errors: '+errors.join(','));
   console.log('Browser QA PASS: 27 countries, amount, period, same country, negative values, expense/risk, copy summary, reset, mailto, 390px mobile');
  }finally{
