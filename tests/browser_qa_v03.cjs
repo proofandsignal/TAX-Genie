@@ -102,9 +102,25 @@ async function run(){
   assert.equal(await evalJs("document.querySelectorAll('input[type=file], form').length"),0);
   // Premium Explorer and brand regression checks.
   assert.equal(await evalJs("document.querySelectorAll('.logo-symbol').length"),1,'branded standalone SVG logo');
-  assert.equal(await evalJs("document.querySelectorAll('.hero-art').length"),1,'themed cover illustration');
+  assert.equal(await evalJs("document.querySelectorAll('.hero-atlas').length"),1,'themed cover illustration');
   assert.equal(await evalJs("document.querySelectorAll('[data-preset]').length"),3,'three sample scenarios');
   assert.equal(await evalJs("document.querySelectorAll('#about').length"),1,'about us panel');
+
+  assert.equal(await evalJs("document.querySelectorAll('[data-evidence]').length"),6,'six evidence questions');
+  assert.equal(await evalJs("document.querySelectorAll('[data-service]').length"),4,'four service directions');
+  assert.equal(await evalJs("document.querySelector('img[src=\"./assets/evidence-atlas.svg\"]').complete && document.querySelector('img[src=\"./assets/evidence-atlas.svg\"]').naturalWidth>0"),true,'thematic atlas artwork loaded');
+  assert.equal(await evalJs("document.querySelector('link[rel=icon]').getAttribute('href')"),'./assets/favicon.svg');
+  await evalJs("document.querySelector('[data-evidence=\"invoice\"]').click()");
+  assert.match(await val('evidence-count'),/1 \/ 6/,'evidence interaction counts questions, not validated files');
+  assert.match(await val('brief-evidence'),/1 of 6/,'brief stays in sync');
+  await evalJs("document.querySelector('#evidence-reset').click()");
+  assert.match(await val('evidence-count'),/0 \/ 6/,'evidence clear works');
+  await evalJs("document.querySelector('[data-service=\"rules\"]').click()");
+  assert.match(await val('service-stage'),/DESIGN ONLY/,'service explorer cannot overpromise active watch');
+  assert.match(await val('service-description'),/No live country rule watch/);
+  await evalJs("document.querySelector('[data-service=\"mapping\"]').click()");
+  assert.match(await val('service-stage'),/DISCOVERY PILOT/);
+
   assert.match(await evalJs("document.querySelector('.end-credit').textContent"),/Created by.*Proof & Signal/);
   await evalJs("document.querySelector('[data-preset=\"fr-de\"]').click()");
   assert.equal(await evalJs("document.getElementById('est').value"),'FR');
