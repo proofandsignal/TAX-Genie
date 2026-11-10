@@ -36,6 +36,15 @@ jobs:
               assert archive.namelist() == paths
           print("RELEASE ZIP ROOT CHECK PASS:", dest)
           PY
+      - name: Upload visual QA screenshots for Premium design review
+        uses: actions/upload-artifact@v4
+        with:
+          name: taxgenie-atlas-visual-qa
+          path: |
+            dist/taxgenie-atlas-desktop.png
+            dist/taxgenie-atlas-mobile.png
+          if-no-files-found: error
+          retention-days: 7
       - name: Upload pilot artifact for human-approved deployment
         uses: actions/upload-artifact@v4
         with:
