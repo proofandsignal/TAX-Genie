@@ -1,0 +1,43 @@
+name: Tax Genie Render HTTPS Smoke
+on:
+  pull_request:
+    paths:
+      - .github/workflows/taxgenie-render-http-qa.yml
+  workflow_dispatch:
+jobs:
+  public-http-smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify actual published Premium Atlas HTML and static assets over HTTPS
+        shell: bash
+        run: |
+          set -euo pipefail
+          URL="https://taxgenie-premium-v03-qa.onrender.com"
+          fetch() {
+            curl --fail --show-error --silent --location --retry 3 --retry-delay 2 --retry-all-errors --max-time 30 "$URL/$1" -o "$2"
+          }
+          fetch "?edition=taxgenie-20261111-r2" /tmp/tg-index.html
+          grep -q 'app-v03-r2.js' /tmp/tg-index.html
+          grep -q 'style-v03-r2.css' /tmp/tg-index.html
+          grep -q 'id="cases"' /tmp/tg-index.html
+          grep -q 'id="vault"' /tmp/tg-index.html
+          grep -q 'id="brief"' /tmp/tg-index.html
+          grep -q 'id="services"' /tmp/tg-index.html
+          grep -q 'No personal data, actual invoices' /tmp/tg-index.html
+          fetch "health.txt" /tmp/tg-health.txt
+          grep -q 'TAX GENIE PILOT v0.3' /tmp/tg-health.txt
+          fetch "assets/app-v03-r2.js" /tmp/tg-app.js
+          grep -q 'function updateEvidence' /tmp/tg-app.js
+          fetch "assets/style-v03-r2.css" /tmp/tg-style.css
+          grep -q '.hero-premium' /tmp/tg-style.css
+          fetch "assets/evidence-atlas.svg" /tmp/tg-atlas.svg
+          grep -q 'EVIDENCE NOTE' /tmp/tg-atlas.svg
+          fetch "assets/favicon.svg" /tmp/tg-favicon.svg
+          grep -q '<svg' /tmp/tg-favicon.svg
+          echo "PUBLIC HTTPS QA PASS: Premium Atlas, Evidence Vault, Brief, Service Studio, JS, CSS, artwork, favicon"
+      - name: Real Chromium interactions against published HTTPS preview
+        env:
+          TAXGENIE_TEST_URL: https://taxgenie-premium-v03-qa.onrender.com/?edition=taxgenie-20261111-r2
+        run: node tests/browser_qa_v03.cjs

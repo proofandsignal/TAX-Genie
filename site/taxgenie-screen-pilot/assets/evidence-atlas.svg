@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1050 970" fill="none">
+<defs>
+<radialGradient id="glow" cx="0" cy="0" r="1" gradientTransform="translate(535 500) rotate(90) scale(510 500)" gradientUnits="userSpaceOnUse"><stop stop-color="#17424A"/><stop offset="1" stop-color="#07131F" stop-opacity="0"/></radialGradient>
+<linearGradient id="rim" x1="85" y1="100" x2="885" y2="860" gradientUnits="userSpaceOnUse"><stop stop-color="#9FE7D8"/><stop offset=".56" stop-color="#D6BE89"/><stop offset="1" stop-color="#66B4AF"/></linearGradient>
+<linearGradient id="arc" x1="250" y1="270" x2="780" y2="720" gradientUnits="userSpaceOnUse"><stop stop-color="#C7F6EC"/><stop offset="1" stop-color="#B89B65"/></linearGradient>
+<filter id="shadow" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="13"/></filter>
+<pattern id="dots" width="31" height="31" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1" fill="#83C4BE" opacity=".25"/></pattern>
+</defs>
+<rect width="1050" height="970" fill="#091923"/>
+<rect width="1050" height="970" fill="url(#glow)"/>
+<rect width="1050" height="970" fill="url(#dots)"/>
+<g opacity=".28" stroke="#7DAFAF"><circle cx="548" cy="481" r="304"/><circle cx="548" cy="481" r="232"/><circle cx="548" cy="481" r="160"/><path d="M145 481H949M548 66V902M255 188L840 773M839 189L255 774"/></g>
+<circle cx="548" cy="481" r="301" stroke="url(#rim)" stroke-width="1.5" stroke-dasharray="3 11"/>
+<path d="M186 484C268 294 370 237 481 285C600 336 607 610 753 596C842 588 873 507 914 418" stroke="#66B7AB" stroke-width="54" stroke-opacity=".06" filter="url(#shadow)"/>
+<path d="M190 495C262 272 400 267 481 285C600 336 607 610 753 596C837 589 877 513 914 418" stroke="url(#arc)" stroke-width="3" stroke-linecap="round"/>
+<path d="M195 505C279 605 384 715 541 696C685 678 814 596 914 418" stroke="#83C8C0" stroke-width="1.4" stroke-dasharray="5 14" opacity=".6"/>
+<g fill="#D0F8F0" stroke="#0B2B31" stroke-width="7"><circle cx="199" cy="492" r="14"/><circle cx="483" cy="285" r="14"/><circle cx="755" cy="596" r="14"/><circle cx="914" cy="419" r="14"/></g>
+<g fill="#102A34" stroke="#81B9AD"><rect x="106" y="406" width="128" height="65" rx="11"/><rect x="823" y="342" width="126" height="65" rx="11"/></g>
+<g fill="#F4F5EB" font-family="sans-serif" font-size="23" font-weight="700"><text x="138" y="446">DE</text><text x="858" y="381">FR</text></g>
+<g transform="rotate(-8 530 475)">
+<rect x="346" y="304" width="369" height="440" rx="22" fill="#071218" stroke="#A0E0D5" stroke-opacity=".6" stroke-width="2"/>
+<rect x="361" y="319" width="339" height="410" rx="15" fill="#102A32" stroke="#315963"/>
+<path d="M387 375H626" stroke="#2C5660" stroke-width="2"/>
+<rect x="388" y="356" width="109" height="9" rx="4.5" fill="#8DDCCA" opacity=".72"/>
+<text x="390" y="418" fill="#B9E6DD" font-family="sans-serif" font-size="16" font-weight="700" letter-spacing="3">EVIDENCE NOTE</text>
+<text x="388" y="483" fill="#F5F5E9" font-family="Georgia,serif" font-size="62">VAT</text>
+<text x="389" y="519" fill="#D7BB86" font-family="sans-serif" font-size="14" letter-spacing="2">CROSS-BORDER / EU</text>
+<path d="M390 560H656M390 596H623M390 632H634" stroke="#729898" stroke-width="3" stroke-linecap="round" opacity=".8"/>
+<path d="M390 673H510" stroke="#74AD9F" stroke-width="9" stroke-linecap="round" opacity=".65"/>
+<circle cx="639" cy="674" r="34" stroke="#D6BB84" stroke-width="2"/>
+<path d="M625 675L636 686L653 661" stroke="#D9BF89" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+<g fill="#D0C19E" font-family="sans-serif" font-size="12" font-weight="700" letter-spacing="3"><text x="157" y="135">EUROPEAN RESEARCH PATHWAY</text><text x="684" y="844">NOT A REFUND DECISION</text></g>
+<path d="M110 151H301M681 858H939" stroke="#77998D" stroke-width="1" opacity=".6"/>
+<circle cx="861" cy="161" r="11" fill="#D5BB87"/><circle cx="861" cy="161" r="22" stroke="#D5BB87" opacity=".6"/>
+<g opacity=".55" fill="#83D8C5"><circle cx="275" cy="285" r="4"/><circle cx="812" cy="700" r="5"/><circle cx="340" cy="770" r="3"/></g>
+</svg>
