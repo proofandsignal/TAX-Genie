@@ -55,6 +55,12 @@ class ScreenStructure(unittest.TestCase):
         self.assertIn("Recoverable VAT / eligibility", html)
         self.assertIn("NOT ASSESSED", html)
         self.assertIn("No personal data, actual invoices", html)
+        self.assertIn('id="signal-grid"', html)
+        self.assertIn('id="brief-flags"', html)
+        self.assertIn("clients@proofandsignal.xyz", html)
+        self.assertNotIn("mailto:proofandsignal@gmail.com", html)
+        self.assertIn("© 2026 All rights reserved", html)
+        self.assertTrue((ROOT.parent.parent / "LICENSE").is_file())
         self.assertNotIn("<form", html)
         self.assertNotIn('type="file"', html)
         self.assertNotIn("https://cloudflareinsights.com", html)
@@ -96,7 +102,7 @@ function element(id) {
   });
   return elements.get(id);
 }
-const document = {getElementById:element,querySelectorAll(){return []},createElement(){return {value:'',textContent:''}}};
+const document = {getElementById:element,querySelectorAll(){return []},createElement(){return {value:'',textContent:'',children:[],append(...args){this.children.push(...args)}}}};
 const context = {
  document,Intl,Date,Number,String,Array,Math,console,
  navigator:{clipboard:{writeText:async()=>{}}},window:{print(){}}
@@ -131,6 +137,9 @@ assert.doesNotMatch(qa.summary(),/Estimated recoverable VAT: €/);
 qa.reset();
 assert.equal(qa.model().amount,1200);
 assert.equal(qa.model().period,'annual');
+assert.match(element('brief-flags').textContent,/synthetic research prompts/);
+assert.match(element('brief-action').textContent,/Verify|Check|Seek|Obtain|Investigate/);
+assert.equal(element('signal-grid').children.length>0,true);
 console.log('Synthetic screen interactions: PASS');
 """
         import os
