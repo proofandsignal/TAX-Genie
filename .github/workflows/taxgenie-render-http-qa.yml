@@ -18,7 +18,9 @@ jobs:
           fetch() {
             curl --fail --show-error --silent --location --retry 3 --retry-delay 2 --retry-all-errors --max-time 30 "$URL/$1" -o "$2"
           }
-          fetch "" /tmp/tg-index.html
+          fetch "?edition=taxgenie-20261111-r2" /tmp/tg-index.html
+          grep -q 'app-v03-r2.js' /tmp/tg-index.html
+          grep -q 'style-v03-r2.css' /tmp/tg-index.html
           grep -q 'id="cases"' /tmp/tg-index.html
           grep -q 'id="vault"' /tmp/tg-index.html
           grep -q 'id="brief"' /tmp/tg-index.html
@@ -37,5 +39,5 @@ jobs:
           echo "PUBLIC HTTPS QA PASS: Premium Atlas, Evidence Vault, Brief, Service Studio, JS, CSS, artwork, favicon"
       - name: Real Chromium interactions against published HTTPS preview
         env:
-          TAXGENIE_TEST_URL: https://taxgenie-premium-v03-qa.onrender.com/
+          TAXGENIE_TEST_URL: https://taxgenie-premium-v03-qa.onrender.com/?edition=taxgenie-20261111-r2
         run: node tests/browser_qa_v03.cjs
