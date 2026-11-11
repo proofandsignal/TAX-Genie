@@ -26,9 +26,9 @@ jobs:
           grep -q 'No personal data, actual invoices' /tmp/tg-index.html
           fetch "health.txt" /tmp/tg-health.txt
           grep -q 'TAX GENIE PILOT v0.3' /tmp/tg-health.txt
-          fetch "assets/app.js" /tmp/tg-app.js
+          fetch "assets/app-v03-r2.js" /tmp/tg-app.js
           grep -q 'function updateEvidence' /tmp/tg-app.js
-          fetch "assets/style.css" /tmp/tg-style.css
+          fetch "assets/style-v03-r2.css" /tmp/tg-style.css
           grep -q '.hero-premium' /tmp/tg-style.css
           fetch "assets/evidence-atlas.svg" /tmp/tg-atlas.svg
           grep -q 'EVIDENCE NOTE' /tmp/tg-atlas.svg
