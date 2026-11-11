@@ -99,6 +99,10 @@ async function run(){
   assert.match(await val('minimum'),/50/);
   assert.match(await val('threshold'),/NOT ASSESSED.*requested refund unknown/,'Charged VAT must not be treated as claimed refund');
   assert.match(await val('status'),/eligibility not assessed/i);
+  assert.match(await val('brief-flags'),/synthetic research prompts/);
+  assert.equal(await evalJs("document.querySelectorAll('#signal-grid .signal-card').length")>0,true,'scenario findings actually rendered');
+  assert.match(await evalJs("document.querySelector('#signal-grid').textContent"),/Requested refund cannot be calculated/);
+
   assert.equal(await evalJs("document.querySelectorAll('input[type=file], form').length"),0);
   // Premium Explorer and brand regression checks.
   assert.equal(await evalJs("document.querySelectorAll('.logo-symbol').length"),1,'branded standalone SVG logo');
@@ -135,8 +139,10 @@ async function run(){
 
   await set('period','short');assert.match(await val('minimum'),/400/);
   await set('refund','DE');assert.match(await val('status'),/Domestic VAT route/i);
+  assert.match(await evalJs("document.querySelector('#signal-grid').textContent"),/Domestic route, different process/,'same-country case changes research findings');
   await set('refund','FR');
   await set('vat','12.345');assert.equal(await evalJs("document.getElementById('copy').disabled"),true);
+  assert.equal(await evalJs("document.getElementById('brief-copy').disabled"),true,'cannot export invalid research dossier');
   await set('vat','-5');assert.equal(await evalJs("document.getElementById('copy').disabled"),true);
   await set('vat','10');
   assert.match(await val('threshold'),/NOT ASSESSED/,'Even small charged VAT cannot establish application minimum');
@@ -153,7 +159,7 @@ async function run(){
   assert.match(await val('amount'),/1,200\.00/);
   assert.match(await val('minimum'),/50/);
   const href=await evalJs("document.querySelector('a[href^=\"mailto:\"]').getAttribute('href')");
-  assert.match(href,/mailto:proofandsignal@gmail\.com/);
+  assert.match(href,/mailto:clients@proofandsignal\.xyz/);
   // Exact calendar-year scenario rules; general EU deadlines do not prove legal eligibility.
   await set('period','remainder');
   assert.match(await val('minimum'),/50/,'remainder-of-year application minimum');
