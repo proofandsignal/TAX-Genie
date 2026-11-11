@@ -23,7 +23,7 @@ jobs:
           from pathlib import Path
           from zipfile import ZipFile, ZIP_DEFLATED
           root = Path("site/taxgenie-screen-pilot")
-          paths = ["index.html", "_headers", "health.txt", "assets/style.css", "assets/app.js", "assets/evidence-atlas.svg", "assets/favicon.svg"]
+          paths = ["index.html", "_headers", "health.txt", "assets/style.css", "assets/app.js", "assets/style-v03-r2.css", "assets/app-v03-r2.js", "assets/evidence-atlas.svg", "assets/favicon.svg"]
           for name in paths:
               assert (root / name).is_file(), f"Missing Pages asset: {name}"
           Path("dist").mkdir(exist_ok=True)
