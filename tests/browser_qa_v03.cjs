@@ -91,8 +91,8 @@ async function run(){
    await delay(100);
   }
   assert(ready,'Page did not initialize');
-  assert.equal(await evalJs("document.querySelectorAll('script[src=\"./assets/app.js\"]').length"),1,'external JS asset');
-  assert.equal(await evalJs("document.querySelectorAll('link[href=\"./assets/style.css\"]').length"),1,'external CSS asset');
+  assert.equal(await evalJs("document.querySelectorAll('script[src=\"./assets/app-v03-r2.js\"]').length"),1,'external JS asset');
+  assert.equal(await evalJs("document.querySelectorAll('link[href=\"./assets/style-v03-r2.css\"]').length"),1,'external CSS asset');
   assert.match(await evalJs("getComputedStyle(document.body).backgroundImage"),/gradient/,'CSS actually loaded');
   assert.equal(await evalJs("document.querySelectorAll('#est option').length"),27);
   assert.match(await val('amount'),/1,200\.00/);
