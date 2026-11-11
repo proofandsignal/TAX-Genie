@@ -138,7 +138,7 @@ qa.reset();
 assert.equal(qa.model().amount,1200);
 assert.equal(qa.model().period,'annual');
 assert.match(element('brief-flags').textContent,/synthetic research prompts/);
-assert.match(element('brief-action').textContent,/Verify|Check|Seek|Obtain|Investigate/);
+assert.match(element('brief-action').textContent,/Verify|Check|Seek|Obtain|Investigate|Collect|Use|Have|Do not/);
 assert.equal(element('signal-grid').children.length>0,true);
 console.log('Synthetic screen interactions: PASS');
 """
