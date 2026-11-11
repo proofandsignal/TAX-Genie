@@ -225,3 +225,29 @@ h1 em,h2 em{font-family:Georgia,"Times New Roman",serif;font-weight:400;letter-s
 @media(max-width:600px){main{padding:13px 12px 39px}.site-header{gap:9px}.nav-links{order:3;flex-basis:100%;gap:15px;overflow-x:auto;justify-content:start;padding:9px 1px}.nav-links a{white-space:nowrap}.hero-premium h1{font-size:clamp(41px,10.8vw,63px)}.hero-premium{padding:28px 0 30px}.hero-lede{font-size:13px}.hero-proof b{font-size:29px}.hero-proof small{font-size:9px}.hero-proof>span{gap:8px}.hero-atlas{height:370px;min-height:370px}.atlas-caption strong{font-size:34px}.presets-head h2,.workspace-heading h2,.service-intro h2{font-size:34px}.preset-grid{grid-template-columns:1fr}.preset-card{min-height:212px}.workspace-heading{display:block}.workspace-heading p{margin-top:9px}.workspace-ribbon{gap:8px;font-size:9px}.evidence-console,.brief-console{padding:17px}.brief-sheet{padding:18px 15px}.brief-metadata{gap:9px}.brief-metadata strong{font-size:13px}.evidence-progress{gap:9px}.evidence-progress strong{font-size:22px}.service-intro{display:block}.service-intro p{margin-top:13px;max-width:none}.service-detail{padding:24px}.service-choice{min-height:74px;padding:14px}.service-choice strong{min-width:165px}.service-choice small{font-size:9px}.hero-actions .linkbtn{font-size:12px;padding:10px 13px}.brief-bottom{font-size:8px}.panel>h2{font-size:16px}}
 @media(prefers-reduced-motion:reduce){.progress-track span{transition:none}}
 @media print{body{background:white;color:black}main{max-width:100%;padding:0}.hero-premium,.presets,.workspace-heading,.workspace-ribbon,.cols,.evidence-console,.service-studio,.about-panel,.contact-block,#workflow,#evidence{display:none!important}.investigation-deck{display:block;margin:0}.brief-console{background:white;border:0;padding:0}.brief-sheet{box-shadow:none;border:1px solid #aaa}.brief-actions,.nav-links{display:none!important}.end{color:black}}
+
+
+/* 2026-11 Demo readiness repair: contextual findings, not simulated tax verification */
+.signal-intel{margin:22px 0 25px;padding:26px;border:1px solid #496466;border-radius:16px;background:linear-gradient(118deg,#152a33,#0f202c 65%,#132e30)}
+.signal-intel-heading{display:flex;gap:18px;align-items:end;justify-content:space-between;flex-wrap:wrap}
+.signal-intel h2{font-size:clamp(25px,3vw,40px);margin:7px 0 11px;line-height:1.16}
+.signal-intel>p{font-size:13px;color:#b8caca;line-height:1.75;max-width:780px;margin:0 0 20px}
+.signal-intel-tag{color:#dfc892;letter-spacing:.08em;font-size:10px;font-weight:750;border:1px solid #796c50;padding:7px 11px;border-radius:50px}
+.signal-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.signal-placeholder{font-size:13px;color:#b4cbc9;padding:15px}
+.signal-card{padding:17px 16px;border:1px solid #36565a;border-radius:11px;background:rgba(4,19,27,.42);min-height:206px;display:flex;align-items:flex-start;flex-direction:column;gap:9px}
+.signal-card.signal-stop{border-color:#896852;background:rgba(90,53,35,.14)}
+.signal-card.signal-info{border-color:#3e6b62;background:rgba(26,91,76,.12)}
+.signal-type{font-size:9px;color:#bcdcd0;letter-spacing:.12em;font-weight:750}
+.signal-stop .signal-type{color:#e7c395}
+.signal-card strong{font-size:15px;font-weight:700;color:#f2f3e9;line-height:1.35}
+.signal-card p{font-size:12px;color:#b8caca;line-height:1.65;margin:0}
+.signal-card small{display:block;font-size:10px;color:#e2d4aa;line-height:1.7;margin-top:auto}
+.signal-legend{display:flex;gap:18px;flex-wrap:wrap;margin-top:16px;font-size:9px;letter-spacing:.08em;color:#9eb9b9}
+.signal-legend span{display:flex;align-items:center;gap:7px}
+.signal-legend i{width:8px;height:8px;border-radius:50%;display:inline-block}
+.dot-review{background:#d9b97b}.dot-stop{background:#e29d7d}.dot-info{background:#9ce0c4}
+.end a{color:#c8e8de;text-decoration:underline}
+@media(max-width:1040px){.signal-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:600px){.signal-intel{padding:17px 14px}.signal-grid{grid-template-columns:1fr}.signal-card{min-height:auto}.signal-intel h2{font-size:29px}.signal-legend{gap:10px}}
+@media print{.signal-intel{display:none}}
