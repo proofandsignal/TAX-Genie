@@ -38,9 +38,9 @@ def read_script():
     parser.feed(PAGE.read_text(encoding="utf-8"))
     for script in parser.scripts:
         src = script["attrs"].get("src", "")
-        if src != "./assets/app.js":
+        if src != "./assets/app-v03-r2.js":
             raise ValueError("Unexpected inline or external JavaScript")
-        script["body"] = (ROOT / "assets" / "app.js").read_text(encoding="utf-8")
+        script["body"] = (ROOT / "assets" / "app-v03-r2.js").read_text(encoding="utf-8")
     return parser.scripts
 
 
@@ -67,11 +67,11 @@ class ScreenStructure(unittest.TestCase):
         self.assertNotIn("fetch(", html)
         scripts = read_script()
         self.assertEqual(len(scripts), 1)
-        self.assertEqual(scripts[0]["attrs"]["src"], "./assets/app.js")
-        self.assertIn('href="./assets/style.css"', html)
+        self.assertEqual(scripts[0]["attrs"]["src"], "./assets/app-v03-r2.js")
+        self.assertIn('href="./assets/style-v03-r2.css"', html)
         self.assertNotIn("<style>", html)
         self.assertNotIn("<script>", html)
-        self.assertTrue((ROOT / "assets" / "style.css").is_file())
+        self.assertTrue((ROOT / "assets" / "style-v03-r2.css").is_file())
         self.assertNotIn("unsafe-inline", (ROOT / "_headers").read_text(encoding="utf-8"))
         self.assertIn("No uploads", html)
         headers = (ROOT / "_headers").read_text(encoding="utf-8")
